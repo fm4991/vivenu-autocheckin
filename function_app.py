@@ -1,6 +1,7 @@
 import logging
 import azure.functions as func
 import os
+import requests
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
@@ -17,8 +18,8 @@ def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
         ticket_barcode = req_body['data']['ticket']['barcode']
 
     if ticket_categoryRef == categoryRef: 
-        func.HttpRequest("POST",f"https://vivenu.com/api/accessusers/tickets/{ticket_barcode}/scan")
-        return func.HttpResponse("Abendkasse") 
+        response = requests.post(f'https://vivenu.com//api/accessusers/tickets/{ticket_barcode}/scan', headers={'Authorization': f'{authorization}'})
+        return func.HttpResponse(response) 
     else: 
         return func.HttpResponse( 
             "keine Abendkasse", 
