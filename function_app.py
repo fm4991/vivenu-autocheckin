@@ -20,8 +20,8 @@ def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
 
     if ticket_categoryRef == categoryRef: 
         headers = {'Authorization': f'{authorization}'}
-        requests.post(f'https://vivenu.com//api/accessusers/tickets/{ticket_barcode}/scan', headers=headers)
-        return func.HttpResponse("bla") 
+        response = requests.post(f'https://vivenu.com//api/accessusers/tickets/{ticket_barcode}/scan', headers=headers)
+        return func.HttpResponse(f'StatusCode {response.status_code} and {response.text}')
     else: 
         return func.HttpResponse( 
             "keine Abendkasse", 
