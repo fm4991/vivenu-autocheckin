@@ -18,7 +18,7 @@ def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
         ticket_barcode = req_body['data']['ticket']['barcode']
 
     if ticket_categoryRef == categoryRef: 
-        response = requests.post(f'https://vivenu.com//api/accessusers/tickets/{ticket_barcode}/scan', headers={'Authorization': f'{authorization}'})
+        response = requests.post(f'https://vivenu.com//api/accessusers/tickets/{ticket_barcode}/scan', headers=f'{"Authorization": "{authorization}"}')
         return func.HttpResponse(response) 
     else: 
         return func.HttpResponse( 
