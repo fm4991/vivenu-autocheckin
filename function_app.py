@@ -7,7 +7,7 @@ app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
 @app.route(route="vivenuautocheckin")
 def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
-    #authorization = os.environ["VIVENU_AUTH"]
+    authorization = os.environ["VIVENU_AUTH"]
     categoryRef = os.environ["VIVENU_CATEGORYREF"]
     print(categoryRef)
     try:
@@ -19,8 +19,9 @@ def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
         ticket_barcode = req_body['data']['ticket']['barcode']
 
     if ticket_categoryRef == categoryRef: 
-        #response = requests.post(f'https://vivenu.com//api/accessusers/tickets/{ticket_barcode}/scan', headers=f'{"Authorization": "{authorization}"}')
-        return func.HttpResponse("Abendkasse") 
+        headers = {'Authorization': f'{authorization}'}
+        response = requests.post(f'https://vivenu.com//api/accessusers/tickets/{ticket_barcode}/scan', headers=headers)
+        return func.HttpResponse(response) 
     else: 
         return func.HttpResponse( 
             "keine Abendkasse", 
