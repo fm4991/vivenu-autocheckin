@@ -1,0 +1,50 @@
+{
+    "id": "a61dcee4-c6c1-430a-9992-676b463a30b0",
+    "sellerId": "6461d48a6d6734e7b0d35334",
+    "webhookId": "6541302913121d59e35282db",
+    "type": "ticket.created",
+    "mode": "dev",
+    "data": {
+      "ticket": {
+        "__v": 1,
+        "_id": "654130cda9f7ae6f4195e9c0",
+        "barcode": "lbbaurrq06",
+        "cartItemId": "bb029f7a-331b-4933-b094-ea4c43a6b4b0",
+        "categoryRef": "b4b5d742-c805-4f62-bea1-9e4982273661",
+        "createdAt": "2023-10-31T16:52:29.640Z",
+        "currency": "EUR",
+        "deliveryType": "VIRTUAL",
+        "entryPermissions": [],
+        "eventId": "646768a72af1b1bab37e6428",
+        "excludedEventIds": [],
+        "expired": false,
+        "history": [
+          {
+            "_id": "654130cda9f7ae6f4195e9c1",
+            "date": "2023-10-31T16:52:29.636Z",
+            "type": "ticket.created"
+          },
+          {
+            "_id": "654130cea9f7ae6f4195e9ca",
+            "date": "2023-10-31T16:52:30.392Z",
+            "type": "ticket.validated"
+          }
+        ],
+        "name": "",
+        "origin": "pos",
+        "personalized": false,
+        "posId": "6461d5302af1b1bab36b3dc6",
+        "realPrice": 10,
+        "regularPrice": 10,
+        "secret": "c7951bb3-37cd-4ed9-9ed4-fe2c557a27c4",
+        "sellerId": "6461d48a6d6734e7b0d35334",
+        "status": "VALID",
+        "ticketName": "Ticket",
+        "ticketTypeId": "646768b1287b25b90d73bfc7",
+        "transactionId": "654130cda9f7ae6f4195e9b4",
+        "triggeredBy": [],
+        "type": "SINGLE",
+        "updatedAt": "2023-10-31T16:52:30.393Z"
+      }
+    }
+  }

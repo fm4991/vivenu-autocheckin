@@ -10,7 +10,8 @@ def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
     token = os.environ["VIVENU_TOKEN"]
     env = os.environ["VIVENU_ENV"]
     hmac_key = os.environ["VIVENU_HMACKEY"]
-    return func.HttpResponse(req.headers)
+    response = req.headers['x-vivenu-signature']
+    return func.HttpResponse(response)
     
     try:
         req_body = req.get_json()
