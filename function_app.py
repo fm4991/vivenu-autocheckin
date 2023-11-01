@@ -3,18 +3,14 @@ import logging, os, requests, hmac, hashlib
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
-def ct_compare(a, b):
-	if len(a) != len(b):
-		return False
-	result = 0
-	for ch_a, ch_b in zip(a, b):
-		result |= ord(ch_a) ^ ord(ch_b)
-	return result == 0
-
 def verifySignature(string_to_verify, signature, shared_secret):
-	return ct_compare(hmac.new(shared_secret, 
-		string_to_verify, hashlib.md5).digest(), signature)
-
+    hmac_hash=hmac.new(b'shared_secret', string_to_verify.encode('utf-8'), hashlib.md5).digest()  
+    if len(hmac_hash) != len(signature):
+        return False
+    result = 0
+    for ch_a, ch_b in zip(hmac_hash, signature):
+        result |= ord(ch_a) ^ ord(ch_b)
+    return result == 0
 
 @app.route(route="vivenuautocheckin")
 def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
@@ -23,6 +19,7 @@ def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
     hmac_key = os.environ["VIVENU_HMACKEY"]
     try:
         req_body = req.get_json()
+        req_raw = req.get_body()
         hmac_hash = req.headers['x-vivenu-signature']    
     except ValueError: 
         return func.HttpResponse("Error parsing Webhook Data (JSON)", status_code=400)
@@ -30,7 +27,7 @@ def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse("Error parsing Webhook Data (HMAC)", status_code=400)
     else:
         try:
-            if verifySignature(req_body, hmac_hash, hmac_key) is False:
+            if verifySignature(req_raw, hmac_hash, hmac_key) is False:
                 return func.HttpResponse("401 Unauthorized", status_code=401)
         except:
             return func.HttpResponse("401 Unauthorized!", status_code=401)
