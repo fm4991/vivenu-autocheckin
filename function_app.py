@@ -9,11 +9,14 @@ app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
     token = os.environ["VIVENU_TOKEN"]
     env = os.environ["VIVENU_ENV"]
+    hmac_key = os.environ["VIVENU_HMACKEY"]
+    return func.HttpResponse(req.headers)
+    
     try:
         req_body = req.get_json()
     except ValueError: 
         return func.HttpResponse("Error parsing Webhook Data", status_code=400)
-    else: 
+    else:
         try:
             ticket_barcode = req_body['data']['ticket']['barcode']
             ticket_origin = req_body['data']['ticket']['origin']
