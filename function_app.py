@@ -12,13 +12,13 @@ def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
     try:
         req_body = req.get_json()
     except ValueError: 
-        pass 
+        return func.HttpResponse("Error parsing Webhook Data", status_code=400)
     else: 
         try:
             ticket_barcode = req_body['data']['ticket']['barcode']
             ticket_origin = req_body['data']['ticket']['origin']
         except KeyError:
-            pass
+            return func.HttpResponse("Expected Keys not found in Webhook Data, Probably not a POS Ticket", status_code=200)
         else:
             if ticket_origin == "pos": 
                 headers = {'token': f'{token}'}
