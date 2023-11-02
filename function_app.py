@@ -21,7 +21,6 @@ def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
     hmac_key = os.environ["VIVENU_HMACKEY"]
     try:
         req_body = req.get_json()
-        req_raw = req.get_body()
         hmac_hash = req.headers['x-vivenu-signature']    
     except ValueError: 
         return func.HttpResponse("Error parsing Webhook Data (JSON)", status_code=400)
@@ -29,7 +28,7 @@ def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse("Error parsing Webhook Data (HMAC)", status_code=400)
     else:
         try:
-            if verifySignature(req_raw, hmac_hash, hmac_key) is False:
+            if verifySignature(str(req_body), hmac_hash, hmac_key) is False:
                 return func.HttpResponse("401 Unauthorized", status_code=401)
         except:
             return func.HttpResponse("401 Unauthorized!", status_code=401)
