@@ -3,7 +3,7 @@ import logging, os, requests, hmac, hashlib
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
-def verifySignature(string_to_verify, signature, shared_secret):
+def verifysignature(string_to_verify, signature, shared_secret):
     digest_maker = hmac.new(shared_secret.encode(),''.encode(),hashlib.sha256)
     digest_maker.update(string_to_verify.encode())
     digest =digest_maker.hexdigest()
@@ -28,8 +28,8 @@ def vivenuautocheckin(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse("Error parsing Webhook Data (HMAC)", status_code=400)
     else:
         try:
-            if verifySignature(str(req_body), hmac_hash, hmac_key) is False:
-                return func.HttpResponse("401 Unauthorized", status_code=401)
+            if verifysignature(str(req_body), hmac_hash, hmac_key) is False:
+                return func.HttpResponse(f"401 Unauthorized... {type(req_body)} || {req_body}", status_code=401)
         except:
             return func.HttpResponse("401 Unauthorized!", status_code=401)
         else:
