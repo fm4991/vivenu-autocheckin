@@ -9,9 +9,14 @@ def verifysignature(string_to_verify, signature, shared_secret):
     digest =digest_maker.hexdigest()
     if len(digest) != len(signature):
         return False
+        log.info("len(digest) =! len(signature)")
+        log.info(digest)
+        log.info(signature)
     elif digest == signature:
         return True
     else:
+        log.info(digest)
+        log.info(signature)
         return False
 
 @app.route(route="vivenuautocheckin")
