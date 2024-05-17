@@ -8,10 +8,10 @@ def verifysignature(string_to_verify, signature, shared_secret):
     digest_maker.update(string_to_verify.encode())
     digest =digest_maker.hexdigest()
     if len(digest) != len(signature):
-        return False
         log.info("len(digest) =! len(signature)")
         log.info(digest)
         log.info(signature)
+        return False
     elif digest == signature:
         return True
     else:
